@@ -61,7 +61,13 @@ async function connectToWhatsApp(): Promise<void> {
       await handleWhatsAppMessage(
         from,
         body,
-        async (text) => { await sock.sendMessage(from, { text }); },
+        async (text) => {
+          try {
+            await sock.sendMessage(from, { text });
+          } catch (err) {
+            console.error('Failed to send WhatsApp message:', err);
+          }
+        },
         ai,
         history
       );

@@ -34,13 +34,13 @@ export async function handleWhatsAppMessage(
   }
 
   const previous = history.get(from);
-  history.add(from, 'user', content);
 
   try {
     const response = await ai.chat(
       [...previous, { role: 'user', content }],
       STEM_TUTOR_PROMPT
     );
+    history.add(from, 'user', content);       // only persist if AI succeeded
     history.add(from, 'assistant', response);
     await send(response);
   } catch {

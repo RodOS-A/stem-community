@@ -87,5 +87,6 @@ describe('handleWhatsAppMessage', () => {
     expect(mockSend).toHaveBeenCalledWith(
       expect.stringContaining('Lo siento')
     );
+    expect(mockHistory.add).not.toHaveBeenCalled();
   });
 });
