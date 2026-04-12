@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch --import=tsx/esm src/bot.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build": "tsc --project tsconfig.json"
   },
   "dependencies": {
     "@stem/core": "workspace:*",

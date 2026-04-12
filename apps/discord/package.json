@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "node --watch --import=tsx/esm src/bot.ts",
     "register": "node --import=tsx/esm src/commands/register.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build": "tsc --project tsconfig.json"
   },
   "dependencies": {
     "@stem/core": "workspace:*",
