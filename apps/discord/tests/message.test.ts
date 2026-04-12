@@ -58,4 +58,14 @@ describe('handleMention', () => {
     expect(mockAI.chat).not.toHaveBeenCalled();
     expect(mockReply).not.toHaveBeenCalled();
   });
+
+  it('replies with error message when AI throws', async () => {
+    mockAI.chat.mockRejectedValueOnce(new Error('Groq API error'));
+
+    await handleMention('user_123', '¿Qué es pi?', mockReply, mockAI as any, mockHistory as any);
+
+    expect(mockReply).toHaveBeenCalledWith(
+      expect.stringContaining('Lo siento')
+    );
+  });
 });
