@@ -1,38 +1,74 @@
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { dirname } from 'path';
 import type { Message } from '../ai/provider.js';
 
 const MAX_HISTORY = 10;
 
-// Map of userId -> array of messages
-type ConversationStore = Map<string, Message[]>;
+interface StorageData {
+  [userId: string]: Message[];
+}
 
 export class ConversationHistory {
-  private store: ConversationStore;
+  private store: StorageData;
+  private dbPath: string;
+  private isMemory: boolean;
 
-  constructor(dbPath?: string) {
-    // Using in-memory store. dbPath parameter is accepted but ignored
-    // In production, this would use better-sqlite3 with the dbPath
-    this.store = new Map();
+  constructor(dbPath: string = process.env.DB_PATH ?? 'conversations.json') {
+    this.dbPath = dbPath;
+    this.isMemory = dbPath === ':memory:';
+    this.store = this.isMemory ? {} : this.loadFromFile();
+  }
+
+  private loadFromFile(): StorageData {
+    try {
+      if (existsSync(this.dbPath)) {
+        const content = readFileSync(this.dbPath, 'utf-8');
+        return JSON.parse(content);
+      }
+    } catch (error) {
+      console.warn(`Failed to load conversations from ${this.dbPath}:`, error);
+    }
+    return {};
+  }
+
+  private saveToFile(): void {
+    // Skip persistence if in-memory mode
+    if (this.isMemory) {
+      return;
+    }
+
+    try {
+      const dir = dirname(this.dbPath);
+      if (dir && !existsSync(dir)) {
+        throw new Error(`Directory does not exist: ${dir}`);
+      }
+      writeFileSync(this.dbPath, JSON.stringify(this.store, null, 2), 'utf-8');
+    } catch (error) {
+      console.warn(`Failed to save conversations to ${this.dbPath}:`, error);
+    }
   }
 
   add(userId: string, role: 'user' | 'assistant', content: string): void {
-    if (!this.store.has(userId)) {
-      this.store.set(userId, []);
+    if (!this.store[userId]) {
+      this.store[userId] = [];
     }
 
-    const messages = this.store.get(userId)!;
-    messages.push({ role, content });
+    this.store[userId].push({ role, content });
 
     // Keep only the last MAX_HISTORY messages
-    if (messages.length > MAX_HISTORY) {
-      this.store.set(userId, messages.slice(-MAX_HISTORY));
+    if (this.store[userId].length > MAX_HISTORY) {
+      this.store[userId] = this.store[userId].slice(-MAX_HISTORY);
     }
+
+    this.saveToFile();
   }
 
   get(userId: string): Message[] {
-    return this.store.get(userId) ?? [];
+    return this.store[userId] ?? [];
   }
 
   clear(userId: string): void {
-    this.store.delete(userId);
+    delete this.store[userId];
+    this.saveToFile();
   }
 }
