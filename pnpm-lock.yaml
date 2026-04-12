@@ -29,10 +29,10 @@ importers:
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
-    devDependencies:
       tsx:
         specifier: ^4.7.0
         version: 4.21.0
+    devDependencies:
       vitest:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)
@@ -54,10 +54,10 @@ importers:
       qrcode-terminal:
         specifier: ^0.12.0
         version: 0.12.0
-    devDependencies:
       tsx:
         specifier: ^4.7.0
         version: 4.21.0
+    devDependencies:
       vitest:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)
