@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { dirname } from 'path';
 import type { Message } from '../ai/provider.js';
 
@@ -39,8 +39,8 @@ export class ConversationHistory {
 
     try {
       const dir = dirname(this.dbPath);
-      if (dir && !existsSync(dir)) {
-        throw new Error(`Directory does not exist: ${dir}`);
+      if (dir && dir !== '.') {
+        mkdirSync(dir, { recursive: true });
       }
       writeFileSync(this.dbPath, JSON.stringify(this.store, null, 2), 'utf-8');
     } catch (error) {

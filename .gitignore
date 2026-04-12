@@ -4,3 +4,6 @@ dist/
 *.db
 auth_info_baileys/
 .wwebjs_auth/
+conversations.json
+whatsapp_conversations.json
+discord_conversations.json
