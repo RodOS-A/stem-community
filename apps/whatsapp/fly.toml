@@ -1,0 +1,15 @@
+app = "stem-whatsapp-bot"
+primary_region = "gru"
+
+[build]
+  dockerfile = "Dockerfile"
+  build_context = "../.."
+
+[env]
+  NODE_ENV = "production"
+  WHATSAPP_DB_PATH = "/data/whatsapp_conversations.json"
+  AUTH_PATH = "/data/auth_info_baileys"
+
+[[mounts]]
+  source = "whatsapp_data"
+  destination = "/data"

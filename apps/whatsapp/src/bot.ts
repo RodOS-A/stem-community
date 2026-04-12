@@ -17,7 +17,7 @@ const history = new ConversationHistory(
 );
 
 async function connectToWhatsApp(): Promise<void> {
-  const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
+  const { state, saveCreds } = await useMultiFileAuthState(process.env.AUTH_PATH ?? 'auth_info_baileys');
   const { version } = await fetchLatestBaileysVersion();
 
   const sock = makeWASocket({
