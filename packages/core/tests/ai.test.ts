@@ -13,3 +13,14 @@ describe('GroqProvider', () => {
     expect(response.length).toBeGreaterThan(0);
   });
 });
+
+describe('createProvider', () => {
+  it('throws when GROQ_API_KEY is not set', () => {
+    const original = process.env.GROQ_API_KEY;
+    delete process.env.GROQ_API_KEY;
+
+    expect(() => createProvider()).toThrow('GROQ_API_KEY');
+
+    process.env.GROQ_API_KEY = original;
+  });
+});

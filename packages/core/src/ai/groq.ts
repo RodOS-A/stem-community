@@ -3,6 +3,9 @@ import type { AIProvider, Message } from './provider.js';
 
 export class GroqProvider implements AIProvider {
   private client: Groq;
+  private static readonly MODEL = 'llama-3.3-70b-versatile';
+  private static readonly MAX_TOKENS = 800;
+  private static readonly TEMPERATURE = 0.7;
 
   constructor(apiKey: string) {
     this.client = new Groq({ apiKey });
@@ -10,15 +13,17 @@ export class GroqProvider implements AIProvider {
 
   async chat(messages: Message[], systemPrompt: string): Promise<string> {
     const completion = await this.client.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+      model: GroqProvider.MODEL,
       messages: [
         { role: 'system', content: systemPrompt },
         ...messages,
       ],
-      max_tokens: 800,
-      temperature: 0.7,
+      max_tokens: GroqProvider.MAX_TOKENS,
+      temperature: GroqProvider.TEMPERATURE,
     });
-    return completion.choices[0]?.message?.content ?? 'No pude generar una respuesta.';
+    const content = completion.choices[0]?.message?.content;
+    if (!content) throw new Error('Groq returned an empty response');
+    return content;
   }
 }
 
