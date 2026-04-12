@@ -1,0 +1,15 @@
+{
+  "name": "stem-community",
+  "private": true,
+  "scripts": {
+    "dev:discord": "pnpm --filter discord dev",
+    "dev:whatsapp": "pnpm --filter whatsapp dev",
+    "test": "pnpm -r test",
+    "build": "pnpm -r build"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0",
+    "@types/node": "^20.0.0"
+  }
+}

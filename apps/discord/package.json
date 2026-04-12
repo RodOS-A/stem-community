@@ -1,0 +1,19 @@
+{
+  "name": "discord",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --import=tsx/esm src/bot.ts",
+    "register": "node --import=tsx/esm src/commands/register.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@stem/core": "workspace:*",
+    "discord.js": "^14.15.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "vitest": "^1.6.0"
+  }
+}
