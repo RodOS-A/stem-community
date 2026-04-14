@@ -1,10 +1,6 @@
 app = "stem-discord-bot"
 primary_region = "gru"
 
-[build]
-  builder = "docker"
-  dockerfile = "Dockerfile"
-
 [env]
   NODE_ENV = "production"
   DISCORD_DB_PATH = "/data/discord_conversations.db"
