@@ -1,0 +1,6 @@
+[build]
+dockerfile = "./Dockerfile"
+context = "."
+
+[deploy]
+startCommand = "node --import=tsx/esm apps/discord/src/bot.ts"
