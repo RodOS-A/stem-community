@@ -3,8 +3,3 @@ primary_region = "gru"
 
 [env]
   NODE_ENV = "production"
-  DISCORD_DB_PATH = "/data/discord_conversations.db"
-
-[[mounts]]
-  source = "discord_data"
-  destination = "/data"
