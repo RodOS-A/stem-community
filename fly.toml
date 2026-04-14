@@ -1,5 +1,10 @@
 app = "stem-discord-bot"
 primary_region = "gru"
 
+[build]
+  builder = "docker"
+  dockerfile = "./Dockerfile"
+  build-target = "production"
+
 [env]
   NODE_ENV = "production"
