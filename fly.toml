@@ -3,6 +3,7 @@ primary_region = "gru"
 
 [build]
   builder = "docker"
+  dockerfile = "Dockerfile"
 
 [env]
   NODE_ENV = "production"
