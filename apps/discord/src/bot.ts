@@ -16,11 +16,12 @@ const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages,
   ],
 });
 
 const ai = createProvider();
-const history = new ConversationHistory(process.env.DISCORD_DB_PATH ?? 'discord_conversations.json');
+const history = new ConversationHistory(process.env.DISCORD_DB_PATH ?? 'discord_conversations.db');
 
 client.once(Events.ClientReady, (c) => {
   console.log(`✅ StemBot Discord listo como ${c.user.tag}`);
